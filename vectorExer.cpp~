@@ -1,0 +1,23 @@
+#include <iostream>
+#include <vector>
+#include <random>
+#include <math.h>
+using namespace std;
+
+int main(){
+
+  srand(time(NULL));
+  
+  vector<float> x(5);  
+
+  x[0] = float(rand());
+  x[1] = float(rand());
+  x[2] = float(rand());
+  x[3] = float(rand());
+  x[4] = float(rand());
+
+  float norm = sqrt((x[0]*x[0])+(x[1]*x[1])+(x[2]*x[2])+(x[3]*x[3])+(x[4]*x[4]));
+  cout<<norm;
+  
+  return 0;
+}

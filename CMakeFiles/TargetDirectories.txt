@@ -1,0 +1,7 @@
+/home/slopan_karn93/hello-world2/CMakeFiles/newton.dir
+/home/slopan_karn93/hello-world2/CMakeFiles/edit_cache.dir
+/home/slopan_karn93/hello-world2/CMakeFiles/rebuild_cache.dir
+/home/slopan_karn93/hello-world2/CMakeFiles/list_install_components.dir
+/home/slopan_karn93/hello-world2/CMakeFiles/install.dir
+/home/slopan_karn93/hello-world2/CMakeFiles/install/local.dir
+/home/slopan_karn93/hello-world2/CMakeFiles/install/strip.dir

@@ -1,0 +1,31 @@
+#include <iostream>
+#include <functional>
+
+//goal: write a version of the root finding function that only takes the
+//objective function (f) and approximates the derivative by a finite difference.
+//call h = 1e-6.
+//create a lambda for the gradient and pass it to the function newton_root coded earlier.
+
+/*approximation for the derivative of a function, f:
+
+(f(x+h) - f(x))/h
+
+ */
+
+const h = 1e-6;
+
+int main(){
+
+  //newton_root function should go here. It should only take in f.
+  double newton_root(function<double(double)> f){
+    ...
+  }
+  
+  //
+  double newton_root( function< double(double) > f,
+                    function< double(double) > deriv ) {
+  
+  return 0;
+}
+
+  //create the lambda function here. By gradient Prof. Eijkhout probably means the derivative.

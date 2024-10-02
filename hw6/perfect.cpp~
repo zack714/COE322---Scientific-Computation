@@ -1,0 +1,47 @@
+#include <iostream>
+#include<algorithm>
+#include<ranges>
+
+using std::endl;
+using std::cout;
+using::std::exit;
+
+namespace rngs = std::ranges;
+
+int main() {
+
+	//store the total amount of perfect numbers
+	int numPerfect = 0;
+
+	rngs::for_each(
+		//iterate over integers, starting from 1, pipe them into a filter
+		rngs::views::iota(1) |
+		//filter the number from iota that'll be returned if it's equal to the sum of its factors
+		rngs::views::filter([](int n) -> bool {
+			//will hold all numbers evaluted as factors
+			int sumFactors = 0;
+			//repeat calculating the factors
+			rngs::for_each(
+				//iota all numbers under n, return them if they're a factor of n
+				rngs::views::iota(1, n) | rngs::views::filter([n](int i) -> bool {return n % i == 0; }),
+				//add the returned factors to sumFactors
+				[&sumFactors](int k) {sumFactors += k; }
+			);
+			//if it's a perfect number, return it
+			return n == sumFactors;
+			}),
+		
+		//print out perfect number
+		[&numPerfect](int i) {
+			cout << i << "is a perfect number." << endl;
+			numPerfect++;
+			//if we found 4 perfect numbers, exit the program
+			if (numPerfect >= 4) {
+				cout << "4 perfect numbers discovered. Ending program." << endl;
+				exit(0); 
+
+			}
+		}
+	);
+	return 0;
+}

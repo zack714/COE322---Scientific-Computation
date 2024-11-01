@@ -1,0 +1,73 @@
+#include "zeroclasslib.hpp"
+#include <iostream>
+#include <cmath>
+using std::cout;
+using std::cin;
+using std::vector;
+using std::pow;
+
+polynomial::polynomial(vector<double> c): coefficients(c){
+  if(c.at(0)==0){
+    cout<<"Polynomial is not properly defined.\n";
+    throw 1;
+  }
+
+
+bool polynomial::is_odd() const {
+  if(coefficients.size()%2==0){
+    cout<<"Polynomial is odd.\n";
+    return true;
+  }
+  else{
+    cout<<"Polynomial is even.\n";
+    return false;
+    }
+}
+
+double polynomial::evaluate_at(double x) const{
+  //holds the value at point x
+  float finalv = 0.f;
+
+  int degree = coefficients.size()-1;
+  //loop through the coefficients and add your value to the power of the degree minus that element
+  for(int i = 0; i<coefficients.size(); i++){
+    finalv+=(coefficients.at(i)*pow(x,degree-i)); 
+  }
+      return finalv;
+
+}
+
+void polynomial::find_initial_bounds(const polynomial& f,double& left,double& right){
+
+  double yleft = f.evaluate_at(left);
+  double yright = f.evaluate_at(right);
+  //is the polynomial not odd?
+  if(!f.is_odd()){
+    throw 1;
+  }
+
+  //make sure we aren't making useless computations if our function is fine
+  if((left<right) && ((left*right)<0))
+    return;
+
+  //if both functions are positive, move the left bound to the left
+  while(left&&right<0){
+    left-=0.1;
+    //reevaluate the left y-value
+    yleft = f.evaluate_at(left);
+  }
+
+  //if both funtions are negative, moev the right bound to the right
+  while(left&&right>0){
+    right+=0.1;
+    //reevaluate right y-value
+    yright = f.evaluate_at(right);
+  }
+
+  //if the left bound is greater than the right bound, swap them.
+  if(left>right){
+    std::swap(left, right);
+  }
+  
+}
+}

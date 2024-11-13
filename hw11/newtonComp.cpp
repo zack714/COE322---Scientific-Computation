@@ -5,58 +5,49 @@ TACC: slopan_karn93
 */
 #include<iostream>
 #include<complex>
+#include<functional>
+
 using std::cout;
 using std::complex;
 using namespace std::complex_literals;
 
-//>>>>>>Function Overloading<<<<<<
 //make prototypes for your template functions.
 template <typename T>
-complex<T> f(complex<T> x);
-
-template <typename T>
-complex<T> fprime(complex<T> x);
-
-//prototypes for non-complex numbers, so they can also work
-double f(double x);
-
-double fprime(double x);
+void newton_root(std::function<T(T)> f,std::function<T(T)> deriv, T guess);
 
 int main(){
-  //start at 0.5+0.5i.
-  complex<double> z{.5,.5};
-  //double n = 3.0;
-  while ( true ) {
-    //calculate the output of your complex number
-    auto fz = f(z);
-    //print out the complex number and its output
-    cout << "f( " << z << " ) = " << fz << '\n';
-    //if the absolute value of the output is small close enough to 0, break.
-    if (std::abs(fz)<1.e-10 ) break;
-    //otherwise, subtract the quotient between the output and the derivative from z.
-    z-= fz/fprime(z);
-  }
+  //complex test values
+  complex<double> z = 0.5+0.5i;
+  complex<float> g = 0.5f+0.5fi;
+
+  //calling the templetized newton function for different types with lambdas as the parameters
+  //watch your static casting for complex inputs!
+  cout<<"Newton (complex double): ";
+  newton_root<complex<double>>([] (complex<double> x) ->  complex<double>{return x*x-static_cast<complex<double>>(2);},[] (complex<double> x) -> complex<double>{return static_cast<complex<double>>(2)*x;},z);
+
+  cout<<"Newton (double): ";
+  newton_root<double>([] (double x) -> double{return x*x-2.0;}, [] (double x) -> double{return 2.0*x;},10000.0);
+
+  cout<<"Newton (complex float): ";
+  newton_root<complex<float>>([] (complex<float> x) -> complex<float>{return x*x-static_cast<complex<float>>(2);}, [] (complex<float> x) -> complex<float>{return static_cast<complex<float>>(2.0)*x;},g);
+
+  cout<<"Newton (float): ";
+  newton_root<float>([] (float x) -> float{return x*x-2.0;}, [] (float x) -> float{return 2.0*x;},10000.f);
   
   return 0;
 }
 
-//template function definitions
-template <typename T>
-//takes a complex version x-value entered and returns a complex double y-value
-complex<T> f(complex<T> x){
-    return x*x-static_cast<complex<double>>(2);
-}
 
-//takes a complex version of an x-value and the derivate (as a complex double) 
-template <typename T>
-complex<T> fprime(complex<T> x){
-    return static_cast<complex<double>>(2)*x;
-}
-//for non-complex numbers
-double f(double x){
-  return x*x-2;
-}
-
-double fprime(double x){
-  return 2*x;
-}
+//also pass in the inital guess as a parameter
+template<typename T>
+void newton_root(std::function<T(T)>f,std::function<T(T)> deriv, T guess){
+  T currentx = guess;
+  T fx = f(currentx);
+  //make the limit greater than 1.e-7 so that floats can find the root
+  while(std::abs(fx)>=1.e-6){
+    //update current x and its y-value
+    currentx -= fx/deriv(currentx);
+    fx = f(currentx);
+  }
+  std::cout<<"Function is "<<fx<<" at x = "<<currentx<<".\n";
+};

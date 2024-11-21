@@ -1,0 +1,10 @@
+cmake_minimum_required( VERSION 3.20 )
+project( hw12 VERSION 1.0 )
+
+message( "Using sources: abctuple.cpp" )
+add_executable( hw12 )
+target_sources( hw12 PRIVATE abctuple.cpp )
+
+target_compile_features( hw12 PRIVATE cxx_std_17 )
+install( TARGETS hw12 DESTINATION . )
+

@@ -1,0 +1,1 @@
+This intermediate class to programming develops a deeper understanding of C++ for its use in scientifc applications and simulations. Topics such as: linked lists, classes, objects, and templates are explored.
